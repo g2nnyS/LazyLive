@@ -163,22 +163,37 @@
     let videoUrl;
     $.ajax({
       type: "GET",
-      url: "https://s1.imlazy.ink:233/info.json",
+      url: "./info.json",
       async: false,
       success: function (response) {
         $("#livEstatus").css("background", response.status_color);
         $("#status").replaceWith(response.status);
         $("#description").replaceWith(response.description);
-        if (response.status != "离线") {
-          document.title =
-            "正在直播：" + response.description + " - Lazy's Live";
-          videoUrl = "https://s1.imlazy.ink:233/live/livestream.flv";
-        } else {
-          videoUrl = "hd.mp4";
-        }
-        return videoUrl;
+        return videoUrl
       },
     });
+
+    fetch('https://live.xypigeon.ink/live/livestream/livestream.flv').then((r) => {
+      if (r.status == 200) {
+        document.title = "正在直播：" + response.description;
+        videoUrl = "https://live.xypigeon.ink/live/livestream/livestream.flv";
+      } else {
+        videoUrl = "hd.mp4"
+        $("#status").replaceWith('离线');
+        return
+      }
+    }).then(() => {
+      const dp = new DPlayer({
+        container: document.getElementById("dplayer"),
+        live: true,
+        autoplay: false,
+        video: {
+          url: videoUrl,
+          type: "auto",
+        },
+        danmaku: true,
+      });
+    })
 
     //初始化播放器
     const dp = new DPlayer({
