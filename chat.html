@@ -135,7 +135,7 @@
   <div class="mdui-dialog" id="loginDialog">
     <div class="mdui-dialog-title">登陆</div>
     <div class="mdui-dialog-content">
-      <span>使用你的 FxCraft 账号进行登录</span>
+      <span>使用你的 LittleSkin 账号进行登录</span>
       <div class="mdui-textfield mdui-textfield-floating-label">
         <i class="mdui-icon material-icons">person_outline</i>
         <label class="mdui-textfield-label">邮箱或玩家名</label>
@@ -149,11 +149,11 @@
         <div class="mdui-textfield-error">请输入密码</div>
       </div>
       <div class="mdui-float-left">
-        <a href="https://skin.fxcraft.cn/auth/register" target="_blank">
+        <a href="https://littleskin.cn/auth/register" target="_blank">
           <button class="mdui-btn mdui-ripple mdui-text-color-teal">
             我没账号
           </button></a>
-        <a href="https://skin.fxcraft.cn/auth/forgot" target="_blank"><button
+        <a href="https://littleskin.cn/auth/forgot" target="_blank"><button
             class="mdui-btn mdui-ripple mdui-text-color-light-blue" onclick="window.open('')">
             忘了密码
           </button></a>
@@ -193,7 +193,7 @@
     if (localStorage.getItem("accessToken") != "") {
       $.ajax({
         type: "POST",
-        url: "https://skin.fxcraft.cn/api/yggdrasil/authserver/validate",
+        url: "https://littleskin.cn/api/yggdrasil/authserver/validate",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify({
@@ -228,7 +228,7 @@
     function login() {
       $.ajax({
         type: "POST",
-        url: "https://skin.fxcraft.cn/api/yggdrasil/authserver/authenticate/",
+        url: "https://littleskin.cn/api/yggdrasil/authserver/authenticate/",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify({
@@ -384,7 +384,7 @@
         case "chat":
           // 聊天区头像
           p_time.innerHTML =
-            "<img src=https://skin.fxcraft.cn/avatar/player/" +
+            "<img src=https://littleskin.cn/avatar/player/" +
             data.name +
             "?size=16>&nbsp;" +
             data.name +
@@ -435,7 +435,7 @@
       mdui.alert("你真的要退出登录嘛", "警告", function () {
         $.ajax({
           type: "POST",
-          url: "https://skin.fxcraft.cn/api/yggdrasil/authserver/invalidate",
+          url: "https://littleskin.cn/api/yggdrasil/authserver/invalidate",
           contentType: "application/json",
           dataType: "json",
           data: JSON.stringify({
