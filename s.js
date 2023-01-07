@@ -68,7 +68,7 @@ ws.on("connection", (connect, reqData) => {
   //身份验证
   var options = {
     method: "POST",
-    uri: "https://skin.fxcraft.cn/api/yggdrasil/authserver/validate",
+    uri: "https://littleskin.cn/api/yggdrasil/authserver/validate",
     body: {
       accessToken: ok.accessToken,
       clientToken: ok.clientToken,
