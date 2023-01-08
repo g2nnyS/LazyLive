@@ -157,59 +157,67 @@
   <script
     src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/limonte-sweetalert2/11.4.4/sweetalert2.all.min.js"></script>
   <script type="text/javascript">
-    //WARN：部分JS代码使用Ctrl+c，Ctrl+V进行编写，如有雷同，纯属借鉴！
-
-    //获取直播间状态
-    let videoUrl;
+    let videoUrl,
+    info;
     $.ajax({
       type: "GET",
       url: "https://s1.imlazy.ink:233/info.json",
       async: false,
       success: function (response) {
+        info = response
         $("#livEstatus").css("background", response.status_color);
         $("#description").replaceWith(response.description);
         return videoUrl
       },
     });
 
-    fetch('https://live.xypigeon.ink/live/livestream/livestream.flv').then((r) => {
-      if (r.status == 200) {
-        document.title = "正在直播：" + response.description;
-            $("#status").replaceWith('在线');
-            videoUrl = "https://live.xypigeon.ink/live/livestream/livestream.flv";
-      } else {
+    async function 检测直播流状态(){
+      let ableConnect = true
+      
+      let 失败 = ()=>{
         videoUrl = "hd.mp4"
-        $("#status").replaceWith('离线');
-        return
+          $("#status").replaceWith('离线');
+          ableConnect = false
       }
-    }).then(() => {
-      const dp = new DPlayer({
-        container: document.getElementById("dplayer"),
-        live: true,
-        autoplay: false,
-        video: {
-          url: videoUrl,
-          type: "auto",
-        },
-        danmaku: true,
+      let 启动视频 = () => {
+        if(ableConnect == true){
+          document.title = "正在直播：" + info.description;
+            $("#status").replaceWith('在线');
+            videoUrl = "https://s1.imlazy.ink:233/live/livestream/livestream.flv";
+        } else {
+          videoUrl = "hd.mp4"
+          $("#status").replaceWith('离线');
+        }
+        const dp = new DPlayer({
+          container: document.getElementById("dplayer"),
+          live: true,
+          autoplay: false,
+          video: {
+            url: videoUrl,
+            type: "auto",
+          },
+          danmaku: true,
+        });
+      }
+      
+      await fetch('https://live.xypigeon.ink/live/livestream/livestream.flv').then((RES)=>{
+        if (RES.status != 200) {
+          失败()
+          启动视频()
+          return
+        }
+      }).catch((error) => {
+          失败()
+          启动视频()
+          return
       });
-    }).catch((error) => {
-      videoUrl = "hd.mp4"
-        $("#status").replaceWith('离线');
-        return
-    });
 
-    //初始化播放器
-    const dp = new DPlayer({
-      container: document.getElementById("dplayer"),
-      live: true,
-      autoplay: false,
-      video: {
-        url: videoUrl,
-        type: "auto",
-      },
-      danmaku: true,
-    });
+      console.log('坏掉了!');
+
+     setTimeout(启动视频(), 5000);
+
+    }
+    检测直播流状态()
 
     //获取并刷新以前保存的Token
     if (localStorage.getItem("accessToken") != "") {
