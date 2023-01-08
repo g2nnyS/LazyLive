@@ -163,11 +163,10 @@
     let videoUrl;
     $.ajax({
       type: "GET",
-      url: "./info.json",
+      url: "https://s1.imlazy.ink:233/info.json",
       async: false,
       success: function (response) {
         $("#livEstatus").css("background", response.status_color);
-        $("#status").replaceWith(response.status);
         $("#description").replaceWith(response.description);
         return videoUrl
       },
@@ -176,7 +175,8 @@
     fetch('https://live.xypigeon.ink/live/livestream/livestream.flv').then((r) => {
       if (r.status == 200) {
         document.title = "正在直播：" + response.description;
-        videoUrl = "https://live.xypigeon.ink/live/livestream/livestream.flv";
+            $("#status").replaceWith('在线');
+            videoUrl = "https://s1.imlazy.ink:233/live/livestream/livestream.flv";
       } else {
         videoUrl = "hd.mp4"
         $("#status").replaceWith('离线');
@@ -193,7 +193,11 @@
         },
         danmaku: true,
       });
-    })
+    }).catch((error) => {
+      videoUrl = "hd.mp4"
+        $("#status").replaceWith('离线');
+        return
+    });
 
     //初始化播放器
     const dp = new DPlayer({
