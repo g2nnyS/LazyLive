@@ -183,7 +183,7 @@
         if(ableConnect == true){
           document.title = "正在直播：" + info.description;
             $("#status").replaceWith('在线');
-            videoUrl = "https://live.xypigeon.ink/live/livestream/livestream.flv";
+            videoUrl = "https://live.xypigeon.ink/live/livestream/livestream.flv"; /**此处改为自己的地址**/
         } else {
           videoUrl = "hd.mp4"
           $("#status").replaceWith('离线');
@@ -200,7 +200,7 @@
         });
       }
       
-      await fetch('https://live.xypigeon.ink/live/livestream/livestream.flv').then((RES)=>{
+      await fetch('https://live.xypigeon.ink/live/livestream/livestream.flv').then((RES)=>{ /**此处改为自己的地址**/
         if (RES.status != 200) {
           失败()
           启动视频()
